@@ -311,12 +311,12 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.share),
-              onPressed: () {},
-            ),
-          ],
+          // actions: <Widget>[
+          //   IconButton(
+          //     icon: Icon(Icons.share),
+          //     onPressed: () {},
+          //   ),
+          // ],
         ),
         body: Stack(
           alignment: Alignment.center,
@@ -400,7 +400,7 @@ class _HomePageState extends State<HomePage> {
                         fillColor:
                             isSelected[0] == true ? cis_org : Colors.white,
                         child: Text(
-                          "1",
+                          "農",
                           style: TextStyle(
                               color: isSelected[0] == true
                                   ? Colors.white
@@ -427,7 +427,7 @@ class _HomePageState extends State<HomePage> {
                         fillColor:
                             isSelected[1] == true ? cis_pink : Colors.white,
                         child: Text(
-                          "2",
+                          "藝",
                           style: TextStyle(
                               color: isSelected[1] == true
                                   ? Colors.white
@@ -454,7 +454,7 @@ class _HomePageState extends State<HomePage> {
                         fillColor:
                             isSelected[2] == true ? cis_blue : Colors.white,
                         child: Text(
-                          "3",
+                          "動",
                           style: TextStyle(
                               color: isSelected[2] == true
                                   ? Colors.white
@@ -490,12 +490,12 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.more_vert),
-              onPressed: () {},
-            ),
-          ],
+          // actions: <Widget>[
+          //   IconButton(
+          //     icon: Icon(Icons.more_vert),
+          //     onPressed: () {},
+          //   ),
+          // ],
         ),
         body: Stack(
           children: <Widget>[
@@ -518,7 +518,7 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (context) {
         return DraggableScrollableSheet(
-          initialChildSize: 0.48,
+          initialChildSize: 0.4,
           expand: false,
           builder: (BuildContext context, ScrollController scrollController) {
             return SingleChildScrollView(
@@ -561,7 +561,7 @@ class _BottomSheetContent extends StatelessWidget {
     }
 
     String msgText =
-        "[振興券怎麼花]${name}券：${info[id].storeName}（${info[id].telephone}）- https://www.google.com/search?q=${info[id].address}";
+        "[振興券怎麼花]${name}券：${info[id].storeName}（${info[id].telephone}）- https://www.google.com.tw/maps/place/${info[id].address}";
     //print(info[id]);
     return Container(
       height: mainHeight,
@@ -607,7 +607,7 @@ class _BottomSheetContent extends StatelessWidget {
                                     child: InkWell(
                                       onTap: () {
                                         if (info[id].webSite.length != 0) {
-                                          //print((info[id].webSite));
+                                          print((info[id].webSite));
                                           _gotoUrl(info[id].webSite);
                                         }
                                       },
@@ -626,7 +626,7 @@ class _BottomSheetContent extends StatelessWidget {
                                     child: InkWell(
                                       onTap: () {
                                         if (info[id].facebook.length != 0) {
-                                          //print((info[id].facebook));
+                                          print((info[id].facebook));
                                           _gotoUrl(info[id].facebook);
                                         }
                                       },
@@ -748,8 +748,10 @@ class _BottomSheetContent extends StatelessWidget {
                             width: 10,
                           ),
                           InkWell(
-                            onTap: () =>
-                                {launch("tel://" + info[id].telephone)},
+                            onTap: () => {
+                              if (info[id].telephone.trim() != "")
+                                {launch("tel://" + info[id].telephone)}
+                            },
                             child: Text(
                               info[id].telephone.trim() != ""
                                   ? "${info[id].telephone}"
@@ -780,19 +782,22 @@ class _BottomSheetContent extends StatelessWidget {
                           Container(
                             width: mainWidth - 80,
                             child: Text(
-                              info[id].description != null
+                              info[id].description != ""
                                   ? "${info[id].description}"
                                   : "暫無商家簡介",
                               softWrap: true,
                               style: TextStyle(
                                   fontSize: 14,
-                                  color: info[id].description != null
+                                  color: info[id].description != ""
                                       ? click
                                       : Colors.black26,
                                   fontWeight: FontWeight.w500),
                             ),
                           )
                         ],
+                      ),
+                      SizedBox(
+                        height: 5,
                       ),
                       Container(
                         alignment: Alignment.centerRight,
@@ -863,6 +868,9 @@ _gotoMap(maplink) async {
 }
 
 _gotoUrl(url) async {
+  if (url.substring(0, 4) != "http") {
+    url = "http://" + url;
+  }
   print(url);
   url = Uri.encodeFull(url);
   if (await canLaunch(url)) {

@@ -15,4 +15,4 @@ Color cis_pink_lit = Color(0xFFFFAED0);
 Color cis_blue = Color(0xFF01A8B4);
 Color cis_blue_lit = Color(0xFFB5DDE0);
 
-String mainTitle = 'ＴＥＳＴ';
+String mainTitle = '振興券哪裡花';

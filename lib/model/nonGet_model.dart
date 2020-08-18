@@ -74,7 +74,8 @@ class GetLocationsResponse {
         address: json["Address"],
         latitude: json["Latitude"],
         longitude: json["Longitude"],
-        description: json["Description"],
+        description:
+            json["Description"] == null ? "" : json["Description"].trim(),
         webSite: json["WebSite"] == null ? "" : json["WebSite"].trim(),
         facebook: json["Facebook"] == null ? "" : json["Facebook"].trim(),
       );
